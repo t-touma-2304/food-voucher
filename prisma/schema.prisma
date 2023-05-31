@@ -45,6 +45,7 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
+  no            String
   // next-auth のドキュメントでは email をオプショナルにしているが、必須に変更している
   // name か email どちらかがセットされていれば良い仕様の場合は元に戻す
   // reference: https://next-auth.js.org/adapters/prisma
@@ -57,10 +58,10 @@ model User {
   password   String
   roleId    String
   role    Role     @relation(fields: [roleId], references: [id])
-  fromThanksCards ThanksCard[] @relation("FromThanksCards")
-  toThanksCards ThanksCard[] @relation("ToThanksCards")
-  departmentId String
-  department Department     @relation(fields: [departmentId], references: [id])
+  //fromThanksCards ThanksCard[] @relation("FromThanksCards")
+  //toThanksCards ThanksCard[] @relation("ToThanksCards")
+  officeId String
+  office Office     @relation(fields: [officeId], references: [id])
 }
 
 model VerificationToken {
@@ -77,23 +78,25 @@ model Role {
   users User[]
 }
 
-model ThanksCard {
-  id            String    @id @default(cuid())
-  title      String
-  body      String
-  from    User     @relation("FromThanksCards", fields: [fromId], references: [id])
-  fromId  String
-  to    User     @relation("ToThanksCards", fields: [toId], references: [id])
-  toId  String
-  createdAt DateTime @default(now())
-}
 
-model Department {
+//model ThanksCard {
+  //id            String    @id @default(cuid())
+ // title      String
+  //body      String
+  //from    User     @relation("FromThanksCards", fields: [fromId], references: [id])
+  //fromId  String
+  //to    User     @relation("ToThanksCards", fields: [toId], references: [id])
+  //toId  String
+  //createdAt DateTime @default(now())
+//}
+
+
+model Office {
   id            String    @id @default(cuid())
-  code      Int   @unique
+  code      String   @unique
   name      String
   parentId  String?
-  parent    Department?     @relation("Parent Children", fields: [parentId], references: [id])
-  children Department[]     @relation("Parent Children")
+  parent    Office?     @relation("Parent Children", fields: [parentId], references: [id])
+  children Office[]     @relation("Parent Children")
   users User[]
 }

@@ -16,30 +16,30 @@ async function main() {
       name: "user",
     },
   });
-  const dept1 = await prisma.department.upsert({
-    where: { code: 0 },
+  const office1 = await prisma.office.upsert({
+    where: { code: "100" },
     update: {},
     create: {
-      name: "全体",
-      code: 0,
+      name: "OCC",
+      code: "100",
     },
   });
-  const dept2 = await prisma.department.upsert({
-    where: { code: 100 },
+  const office2 = await prisma.office.upsert({
+    where: { code: "200" },
     update: {},
     create: {
-      name: "管理本部",
-      code: 100,
-      parentId: dept1.id,
+      name: "STN",
+      code: "200",
+     // parentId: office1.id,
     },
   });
-  const dept3 = await prisma.department.upsert({
-    where: { code: 200 },
+  const office3 = await prisma.office.upsert({
+    where: { code: "300" },
     update: {},
     create: {
-      name: "開発本部",
-      code: 200,
-      parentId: dept1.id,
+      name: "C&C",
+      code: "300",
+      //parentId: office1.id,
     },
   });
   const admin = await prisma.user.upsert({
@@ -47,10 +47,11 @@ async function main() {
     update: {},
     create: {
       name: "admin",
+      no: "0001",
       email: "admin@ts.occ.co.jp",
       password: "admin",
       roleId: role_admin.id,
-      departmentId: dept2.id,
+      officeId: office2.id,
     },
   });
 
@@ -59,14 +60,16 @@ async function main() {
     update: {},
     create: {
       name: "user",
+      no: "0002",
       email: "user@ts.occ.co.jp",
       password: "user",
       roleId: role_user.id,
-      departmentId: dept3.id,
+      officeId: office3.id,
     },
   });
   console.log({ admin, user });
 
+  /*
   const tc1 = await prisma.thanksCard.upsert({
     where: { id: "thanks_card_test1" },
     update: {},
@@ -98,7 +101,9 @@ async function main() {
     },
   });
   console.log({ tc1, tc2, tc3 });
+  */
 }
+
 
 main()
   .catch((e) => {
