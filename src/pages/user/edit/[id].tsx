@@ -53,9 +53,9 @@ const UserEdit: NextPage = () => {
     Prisma.RoleCreateInput[]
   >("/api/role", fetcher);
 
-  const { data: departments, error: departmentsFetchError } = useSWR<
-    Prisma.DepartmentCreateInput[]
-  >("/api/department", fetcher);
+  const { data: offices, error: officesFetchError } = useSWR<
+    Prisma.OfficeCreateInput[]
+  >("/api/office", fetcher);
 
   /* targetUser を取得完了したタイミングでフォームに targetUser のプロパティをセットする */
   React.useEffect(() => {
@@ -110,7 +110,7 @@ const UserEdit: NextPage = () => {
   });
 
   if (!targetUser) return <span>loading...</span>;
-  if (targetUserFetchError || rolesFetchError || departmentsFetchError) {
+  if (targetUserFetchError || rolesFetchError || officesFetchError) {
     return <span>server error</span>;
   }
 
@@ -125,6 +125,15 @@ const UserEdit: NextPage = () => {
             error={"name" in errors}
             helperText={errors.name?.message}
             {...register("name")}
+          />
+        </FormControl>
+        <FormControl fullWidth>
+          <TextField
+            label="No"
+            variant="standard"
+            error={"no" in errors}
+            helperText={errors.no?.message}
+            {...register("no")}
           />
         </FormControl>
         {/*
@@ -185,22 +194,22 @@ const UserEdit: NextPage = () => {
           </select>
           */}
         <FormControl fullWidth>
-          <InputLabel>Department</InputLabel>
+          <InputLabel>office</InputLabel>
           <Select
-            label="department"
+            label="office"
             required
-            error={"departmentId" in errors}
-            defaultValue={targetUser?.departmentId}
-            {...register("departmentId")}
+            error={"officeId" in errors}
+            defaultValue={targetUser?.officeId}
+            {...register("officeId")}
           >
-            {departments?.map((department) => (
-              <MenuItem key={department.id} value={department.id}>
-                {department.name}
+            {offices?.map((office) => (
+              <MenuItem key={office.id} value={office.id}>
+                {office.name}
               </MenuItem>
             ))}
           </Select>
           <FormHelperText error={true}>
-            {errors.departmentId?.message}
+            {errors.officeId?.message}
           </FormHelperText>
         </FormControl>
         {/*
@@ -260,20 +269,20 @@ export default UserEdit;
         <p className="error">{errors.roleId?.message}</p>
       </div>
       <div>
-        <label>department</label>
+        <label>office</label>
         <select
-          {...register("departmentId")}
-          defaultValue={departments ? departments[0].id : undefined}
+          {...register("officeId")}
+          defaultValue={offices ? offices[0].id : undefined}
         >
-          {departments?.map((department) => {
+          {offices?.map((office) => {
             return (
-              <option key={department.id} value={department.id}>
-                {department.name}
+              <option key={office.id} value={office.id}>
+                {office.name}
               </option>
             );
           })}
         </select>
-        <p className="error">{errors.departmentId?.message}</p>
+        <p className="error">{errors.officeId?.message}</p>
       </div>
       <Button type="submit" variant="contained" color="primary">
         Submit

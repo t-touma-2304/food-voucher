@@ -20,11 +20,11 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { fetcher } from "@/utils/fetcher";
 
 const UserList: NextPage = () => {
-  /* User の外部キー(role, department)も含んだ型を定義している */
+  /* User の外部キー(role, office)も含んだ型を定義している */
   type UserPayload = Prisma.UserGetPayload<{
     include: {
       role: true;
-      department: true;
+      office: true;
     };
   }>;
   /* SWR を使用して /api/user からデータを取得し、 users 配列で受け取る */
@@ -54,9 +54,10 @@ const UserList: NextPage = () => {
             <TableRow>
               <TableCell>id</TableCell>
               <TableCell>name</TableCell>
+              <TableCell>no</TableCell>
               <TableCell>email</TableCell>
               <TableCell>role</TableCell>
-              <TableCell>department</TableCell>
+              <TableCell>office</TableCell>
               <TableCell></TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -69,9 +70,10 @@ const UserList: NextPage = () => {
                 <TableRow key={user.id}>
                   <TableCell>{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.no}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>{user.role.name}</TableCell>
-                  <TableCell>{user.department.name}</TableCell>
+                  <TableCell>{user.office.name}</TableCell>
                   <TableCell>
                     <Link href={`/user/edit/${user.id}`} passHref>
                       <Button variant="contained" color="primary">
