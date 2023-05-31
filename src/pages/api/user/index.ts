@@ -18,7 +18,7 @@ const handleGet = async (req: NextApiRequest, res: NextApiResponse<User[]>) => {
   const users = await prisma.user.findMany({
     include: {
       role: true,
-      department: true,
+      office: true,
     },
   });
   res.status(200).json(users);
@@ -31,14 +31,14 @@ const handlePost = async (req: NextApiRequest, res: NextApiResponse<User>) => {
     /*
     // スプレッド構文を使用しない場合。
     // (補足)プロパティ名と変数名が一致しているため、プロパティ名は省略できる。
-    const { name, email, password, roleId, departmentId } = req.body;
+    const { name, email, password, roleId, officeId } = req.body;
     const createdUser = await prisma.user.create({
       data: {
         name: name,
         email: email,
         password: password,
         roleId: roleId,
-        departmentId: departmentId,
+        officeId: officeId,
       },
     });
     */

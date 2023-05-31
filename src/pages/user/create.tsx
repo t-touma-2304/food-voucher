@@ -48,8 +48,8 @@ const UserCreate: NextPage = () => {
   });
 
   const { data: roles, error: role_error } = useSWR<Prisma.RoleCreateInput[]>('/api/role', fetcher);
-  const { data: departments, error: department_error } = useSWR<Prisma.DepartmentCreateInput[]>(
-    '/api/department',
+  const { data: offices, error: office_error } = useSWR<Prisma.OfficeCreateInput[]>(
+    '/api/office',
     fetcher
   );
 
@@ -64,6 +64,15 @@ const UserCreate: NextPage = () => {
             error={'name' in errors}
             helperText={errors.name?.message}
             {...register('name')}
+          />
+        </FormControl>
+        <FormControl fullWidth>
+          <TextField
+            label='No'
+            variant='standard'
+            error={'no' in errors}
+            helperText={errors.no?.message}
+            {...register('no')}
           />
         </FormControl>
         {/*
@@ -126,23 +135,23 @@ const UserCreate: NextPage = () => {
             </select>
             */}
         <FormControl fullWidth>
-          <InputLabel>Department</InputLabel>
+          <InputLabel>office</InputLabel>
           <Select
-            label='department'
+            label='office'
             required
             defaultValue=''
-            error={'departmentId' in errors}
-            {...register('departmentId')}
+            error={'officeId' in errors}
+            {...register('officeId')}
           >
-            {departments?.map((department) => {
+            {offices?.map((office) => {
               return (
-                <MenuItem key={department.id} value={department.id}>
-                  {department.name}
+                <MenuItem key={office.id} value={office.id}>
+                  {office.name}
                 </MenuItem>
               );
             })}
           </Select>
-          <FormHelperText error={true}>{errors.departmentId?.message}</FormHelperText>
+          <FormHelperText error={true}>{errors.officeId?.message}</FormHelperText>
         </FormControl>
         {/*
             <button

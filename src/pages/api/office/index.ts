@@ -1,13 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-import { Department } from "@prisma/client";
+import { Office } from "@prisma/client";
 import { prisma } from "@/utils/prismaSingleton";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Department[]>
+  res: NextApiResponse<Office[]>
 ) {
-  const departments = await prisma.department.findMany();
-  res.status(200).json(departments);
+  const offices = await prisma.office.findMany();
+  res.status(200).json(offices);
 }
